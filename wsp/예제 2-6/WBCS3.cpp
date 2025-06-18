@@ -7,7 +7,7 @@ int main(int argc, char* argv[]) // char*: SBCS 기반으로 문자열을 전달
 {
 	int i;
 	for (i = 0; i < argc; ++i)
-		fputws(argv[i], stdout);
+		fputws(argv[i], stdout); // 유니코드 기반 문자열 처리 함수
 
 	return 0;
 }
