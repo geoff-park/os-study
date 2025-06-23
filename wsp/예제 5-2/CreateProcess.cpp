@@ -7,7 +7,7 @@
 #include <tchar.h>
 #include <windows.h>
 
-#define DIR_LEN MAX_PATH+1
+#define DIR_LEN MAX_PATH+1 // MAX_PATH: Windows에서 허용하는 완전경로의 최대 길이
 
 int _tmain(int argc, TCHAR* argv[])
 {
@@ -30,15 +30,27 @@ int _tmain(int argc, TCHAR* argv[])
 	si.dwYSize = 200; // 프로세스 윈도우의 세로 길이
 	si.lpTitle = (wchar_t*) _T("I am a boy!"); // 형 변환: const wchar_t* -> wchar_t* // 콘솔 윈도우의 타이틀 바 제목
 
+	/* 프로세스 생성 2단계: 현재 디렉터리의 설정 */
+	/*
+		일반적으로 프로세스가 생성되면 프로세스의 현재 디렉터리(Current Directory)는 프로세스의 실행파일이 존재하는 디렉터리로 설정된다.
+	*/
+
 	TCHAR command[] = _T("AdderProcess.exe 10 20");
 	TCHAR cDir[DIR_LEN];
 	BOOL state;
+
+	// ** GetCurrentDirectory **
+	// DWORD GetCurrentDirectory (
+	//		DWORD nBufferLength, // 현재 디렉터리 정보가 저장될 메모리 버퍼의 크기 (문자열 길이 정보)
+	//		LPSTR lpBuffer // 현재 디렉터리 정보가 저장될 메모리 버퍼의 포인터
+	// );
 
 	GetCurrentDirectory(DIR_LEN, cDir); // 현재 디렉터리 확인
 	_fputts(cDir, stdout);
 	_fputts(_T("\n"), stdout);
 
 	SetCurrentDirectory(_T("C:\\WinSystem"));
+	// 현재 디렉터리를 C 드라이브 아래에 있는 WinSystem이라는 디렉터리로 변경
 
 	GetCurrentDirectory(DIR_LEN, cDir); // 현재 디렉터리 확인
 	_fputts(cDir, stdout);
