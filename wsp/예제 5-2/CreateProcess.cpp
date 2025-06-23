@@ -56,13 +56,26 @@ int _tmain(int argc, TCHAR* argv[])
 	_fputts(cDir, stdout);
 	_fputts(_T("\n"), stdout);
 
+
+	/* 프로세스 생성 3단계: Create Process 함수의 호출 */
+
+
 	state = CreateProcess( // 프로세스 생성
 		NULL, // 실행파일의 이름
-		command, // main 함수에 전달될 문자열
+		command, // main 함수에 전달될 문자열 // 전달인자의 문자열은 변수 형태여야 한다.
 		NULL, NULL, TRUE,
 		CREATE_NEW_CONSOLE,
 		NULL, NULL, &si, &pi
 		); // CreateProcess
+
+	// CreateProcess 함수에 실행파일 이름을 전달하는 방법은 2가지가 있다.
+	//		1) 함수의 첫 번째 전달인자 -> 현재 디렉터리를 기준으로 실행파일을 찾는다.
+	//		2) 함수의 두 번째 전달인자 -> 표준 검색경로 순서대로 실행파일을 찾게 된다.
+	//			* 실행 중인 프로세스의 실행파일이 존재하는 디렉터리
+	//			=> * 실행 중인 프로세스의 현재 디렉터리 (Current Directory)
+	//			=> * Windows의 시스템 디렉터리 (System Directory)
+	//			=> * Windows의 디렉터리 (Windows Directory)
+	//			=> * 환경변수 PATH에 의해 지정되어 있는 디렉터리
 
 	if (state != 0)
 	{
