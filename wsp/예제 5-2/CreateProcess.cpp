@@ -16,19 +16,19 @@ int _tmain(int argc, TCHAR* argv[])
 	// 이 변수는 CreateProcess 함수의 9번째 인자로 들어오는 요소
 	// -> ** 생성하는 프로세스의 속성을 지정하는 용도로 사용된다.
 
-	PROCESS_INFORMATION pi;
+	PROCESS_INFORMATION pi; // 새로 생성되는 프로세스 관련 정보를 얻기 위해 사용
 
 	// Line 22-28: 생성하고자 하는 프로세스의 속성을 지정
 	si.cb = sizeof(si); // 구조체 변수의 크기
 	si.dwFlags = STARTF_USEPOSITION | STARTF_USESIZE; // 설정된 멤버의 정보
-		// STARTF_USEPOSITION: dwX, dwY 값 참조 -> 생성하는 프로세스 윈도우 위치를 결정할 때 사용
-		// STARTF_USESIZE: dwXSize, dwYSize 값 참조 -> 생성하는 프로세스 윈도우 크기를 결정할 때 사용
+	// STARTF_USEPOSITION: dwX, dwY 값 참조 -> 생성하는 프로세스 윈도우 위치를 결정할 때 사용
+	// STARTF_USESIZE: dwXSize, dwYSize 값 참조 -> 생성하는 프로세스 윈도우 크기를 결정할 때 사용
 
 	si.dwX = 100; // 프로세스 윈도우의 x 좌표
 	si.dwY = 200; // 프로세스 윈도우의 y 좌표
 	si.dwXSize = 300; // 프로세스 윈도우의 가로 길이
 	si.dwYSize = 200; // 프로세스 윈도우의 세로 길이
-	si.lpTitle = (wchar_t*) _T("I am a boy!"); // 형 변환: const wchar_t* -> wchar_t* // 콘솔 윈도우의 타이틀 바 제목
+	si.lpTitle = (wchar_t*)_T("I am a boy!"); // 형 변환: const wchar_t* -> wchar_t* // 콘솔 윈도우의 타이틀 바 제목
 
 	/* 프로세스 생성 2단계: 현재 디렉터리의 설정 */
 	/*
@@ -64,9 +64,9 @@ int _tmain(int argc, TCHAR* argv[])
 		NULL, // 실행파일의 이름
 		command, // main 함수에 전달될 문자열 // 전달인자의 문자열은 변수 형태여야 한다.
 		NULL, NULL, TRUE,
-		CREATE_NEW_CONSOLE,
+		CREATE_NEW_CONSOLE, // 새롭게 생성하는 프로세스를 위한 콘솔 윈도우가 독립적으로 생성된다.
 		NULL, NULL, &si, &pi
-		); // CreateProcess
+	); // CreateProcess
 
 	// CreateProcess 함수에 실행파일 이름을 전달하는 방법은 2가지가 있다.
 	//		1) 함수의 첫 번째 전달인자 -> 현재 디렉터리를 기준으로 실행파일을 찾는다.
