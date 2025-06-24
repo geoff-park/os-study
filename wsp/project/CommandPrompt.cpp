@@ -1,3 +1,5 @@
+#define _CRT_SECURE_NO_WARNINGS
+
 /*
 * CommandPrompt.cpp
 * 프로그램 설명: 명령 프롬프트의 골격
@@ -75,7 +77,15 @@ int CmdProcessing(void)
 	}
 	else
 	{
-		_tprintf(ERROR_CMD, cmdTokenList[0]);
+		// CMD 2차: 생소한 명령어가 입력되면 표준 검색경로에 존재하는 실행파일로 간주하고 프로세스를 생성
+		STARTUPINFO si = { 0, };
+		PROCESS_INFORMATION pi;
+		si.cb = sizeof(si);
+		BOOL isRun =
+			CreateProcess(NULL, cmdTokenList[0], NULL, NULL,
+				TRUE, 0, NULL, NULL, &si, &pi);
+		if (isRun == FALSE)
+			_tprintf(ERROR_CMD, cmdTokenList[0]);
 	}
 
 	return 0;
