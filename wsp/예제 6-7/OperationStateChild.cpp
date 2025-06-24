@@ -1,3 +1,5 @@
+#define _CRT_SECURE_NO_WARNINGS
+
 /*
 	OperationStateChild.cpp
 	프로그램 설명: 프로그램 실행결과에 따른 반환값
